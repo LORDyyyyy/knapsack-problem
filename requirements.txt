@@ -1,2 +1,2 @@
 flask==3.0.3
-matplotlib
+matplotlib=3.8.4

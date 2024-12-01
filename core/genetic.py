@@ -1,6 +1,6 @@
 import random
 from typing import List, Callable
-from knapsack import Knapsack
+from .knapsack import Knapsack
 
 Genome = Knapsack
 Population = List[Genome]
@@ -101,12 +101,12 @@ class Genetic:
             if self.fitness(best_genome) > self.fitness(result):
                 result = best_genome
 
-            print(f"Generation {gen}'s best solution is {
-                  self.fitness(best_genome)}")
+            yield f"Generation {gen}'s best solution is {
+                  self.fitness(best_genome)}", ""
 
             generation = self.make_generation(population=top_genomes, k=1200)
 
-        return result, gen_fitness
+        yield result, gen_fitness
 
 
 class UnboundedGenetic(Genetic):

@@ -1,5 +1,6 @@
 import sys
 import web
+import cli
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
@@ -12,4 +13,4 @@ if __name__ == "__main__":
     if env == "api":
         web.start()
     else:
-        raise NotImplementedError("CLI is not implemented yet.")
+        cli.start()
