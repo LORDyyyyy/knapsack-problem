@@ -1,8 +1,63 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
+from marshmallow import (
+    Schema,
+    fields,
+    ValidationError,
+    INCLUDE,
+    validates_schema,
+)
+
 
 api_bp = Blueprint("api", __name__)
 
 
-@api_bp.route("/api")
+def positive_non_zero(value):
+    if value <= 0:
+        raise ValidationError("Must be a positive non-zero integer.")
+
+
+class SolveRequestSchema(Schema):
+    type = fields.Int(validate=lambda x: x in [1, 2], required=True)
+    n = fields.Int(validate=positive_non_zero, required=True)
+    maximum_capacity = fields.Int(validate=positive_non_zero, required=True)
+    weight = fields.List(
+        fields.Int(validate=positive_non_zero),
+        required=True,
+    )
+    value = fields.List(
+        fields.Int(validate=positive_non_zero),
+        required=True,
+    )
+
+    @validates_schema
+    def validate_length(self, data, **kwargs):
+        if len(data["weight"]) != data["n"]:
+            raise ValidationError(
+                f"Length of 'weight' list must be equal to 'n', which is {data['n']}.",
+                field_name="weight",
+            )
+        if len(data["value"]) != data["n"]:
+            raise ValidationError(
+                f"Length of 'value' list must be equal to 'n', which is {data['n']}.",
+                field_name="value",
+            )
+
+    class Meta:
+        unknown = INCLUDE
+
+
+@api_bp.route("/api/")
 def index():
-    return jsonify({"message": "Hello, World!"})
+    return jsonify({"message": "Working"}), 200
+
+
+@api_bp.route("/api/solve", methods=["POST"])
+def solve():
+    try:
+        schema = SolveRequestSchema()
+        data = request.get_json()
+        result = schema.load(data)
+
+        return jsonify({"message": "Working", "data": result}), 200
+    except ValidationError as err:
+        return jsonify(err.messages), 400
