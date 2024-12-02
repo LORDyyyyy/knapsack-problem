@@ -1,4 +1,5 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, Response
+from core import Knapsack, Genetic, UnboundedGenetic
 from marshmallow import (
     Schema,
     fields,
@@ -58,6 +59,22 @@ def solve():
         data = request.get_json()
         result = schema.load(data)
 
-        return jsonify({"message": "Working", "data": result}), 200
+        problem_type = int(result["type"])
+        n, Knapsack.maximum_capacity = int(result["n"]), int(result["maximum_capacity"])
+        weight, value = result["weight"], result["value"]
+
+        genetic = Genetic() if problem_type == 1 else UnboundedGenetic()
+
+        for i in range(n):
+            Knapsack.add_item(weight=int(weight[i]), value=int(value[i]))
+
+        def wrapper():
+            for knapsack, _ in genetic.evolution(lim=500):
+                yield str(knapsack) + "\n"
+
+        return Response(wrapper(), content_type="text/plain")
+
+        # return Response(genetic.evolution(lim=500), content_type="text/plain")
+
     except ValidationError as err:
         return jsonify(err.messages), 400

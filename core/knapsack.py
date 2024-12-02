@@ -1,7 +1,7 @@
 from collections import namedtuple
 from typing import List
 
-Item = namedtuple('Item', ['weight', 'value'])
+Item = namedtuple("Item", ["weight", "value"])
 
 
 class Knapsack:
@@ -66,11 +66,11 @@ class Knapsack:
     def __repr__(self) -> str:
         """How the knapsack object should be printed"""
 
-        result = f"Weight: {self._weight}\nValue: {self._value}\nTaken items: "
+        result: str = f"Weight: {self._weight}\nValue: {self._value}\nTaken items: "
         for i, take in enumerate(self.selected_items):
             if take > 1:
                 result += f"{i + 1}({self.selected_items[i]}) "
             elif take:
                 result += f"{i + 1} "
 
-        return result
+        return result.strip()
