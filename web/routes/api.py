@@ -61,10 +61,17 @@ def solve():
 
         problem_type = int(result["type"])
         n, Knapsack.maximum_capacity = int(result["n"]), int(result["maximum_capacity"])
+
+        # Clear Knapsack's available items
+        Knapsack.n = 0
+        Knapsack.availabe_items = []
+
         weight, value = result["weight"], result["value"]
 
         genetic = Genetic() if problem_type == 1 else UnboundedGenetic()
 
+        Knapsack.n = 0
+        Knapsack.availabe_items = []
         for i in range(n):
             Knapsack.add_item(weight=int(weight[i]), value=int(value[i]))
 
