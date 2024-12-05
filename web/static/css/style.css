@@ -1,0 +1,33 @@
+
+.alert-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1050;
+    width: 300px;
+}
+
+.fade {
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+}
+
+
+hr{
+    color: white;
+    border-width: 5px;
+}
+
+#generateBtn
+{
+    display: none;
+}
+
+
+#outputDiv
+{
+    width: 600px;
+    height: 340px;
+    overflow: scroll;
+    display: none;
+}
