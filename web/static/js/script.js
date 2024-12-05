@@ -119,7 +119,9 @@ document.getElementById("generateBtn").addEventListener("click", () => {
                         }
                         const chunk = decoder.decode(value, { stream: true });
                         // console.log('Received chunk:', chunk);
-                        document.getElementById("outputDiv").innerHTML+=`${chunk}`;
+                        
+                        document.getElementById("outputDiv").innerHTML+="";
+                        document.getElementById("outputDiv").innerHTML+=`${chunk}<br>`;
                         return readChunk(); 
                     });
                 }
