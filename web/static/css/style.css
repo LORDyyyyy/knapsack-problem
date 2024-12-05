@@ -31,3 +31,12 @@ hr{
     overflow: scroll;
     display: none;
 }
+
+#outputDiv2
+{
+    width: 200px;
+    height: 140px;
+    display: none;
+}
+
+

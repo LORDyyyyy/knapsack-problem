@@ -61,6 +61,8 @@ function displayFields() {
 
 document.getElementById("generateBtn").addEventListener("click", () => {
     const sizeInput = parseInt(document.getElementById("sizeInput").value);
+    document.getElementById("outputDiv2").innerHTML="";
+    document.getElementById("outputDiv2").style.display = "none";
 
     const weights = [];
     const values = [];
@@ -111,6 +113,10 @@ document.getElementById("generateBtn").addEventListener("click", () => {
                 const reader = response.body.getReader(); 
                 const decoder = new TextDecoder(); 
 
+
+                document.getElementById("outputDiv").innerHTML="";
+                
+
                 function readChunk() {
                     return reader.read().then(({ done, value }) => {
                         if (done) {
@@ -119,8 +125,13 @@ document.getElementById("generateBtn").addEventListener("click", () => {
                         }
                         const chunk = decoder.decode(value, { stream: true });
                         // console.log('Received chunk:', chunk);
+                        if(chunk[0] == 'W')
+                        {
+                            document.getElementById("outputDiv2").style.display = "block";
+                            document.getElementById("outputDiv2").innerHTML+=`${chunk}`;
+                        }
                         
-                        document.getElementById("outputDiv").innerHTML+="";
+                        
                         document.getElementById("outputDiv").innerHTML+=`${chunk}<br>`;
                         return readChunk(); 
                     });
