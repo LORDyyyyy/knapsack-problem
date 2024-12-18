@@ -134,10 +134,7 @@ document.getElementById("generateBtn").addEventListener("click", () => {
                     break;
                 }
 
-                console.log(chunk[0]);
-
                 if (finalOutputTaken) {
-                    console.log("finalOutputTaken");
                     const base64Image = chunk;
 
                     const outputWindow = window.open(
