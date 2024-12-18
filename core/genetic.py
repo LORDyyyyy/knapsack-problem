@@ -19,7 +19,7 @@ class Genetic:
 
         return genome.get_value()
 
-    def generate_genome(self) -> Genome:
+    def _generate_genome(self) -> Genome:
         """Generate a genome with random values"""
 
         genome = Genome(
@@ -29,13 +29,13 @@ class Genetic:
 
         return genome
 
-    def generate_population(self, k: int) -> Population:
+    def _generate_population(self, k: int) -> Population:
         """Make generation 0 with k genomes"""
 
-        generation = [self.generate_genome() for _ in range(k)]
+        generation = [self._generate_genome() for _ in range(k)]
         return generation
 
-    def natural_selection(self, population: Population, k: int) -> Population:
+    def _natural_selection(self, population: Population, k: int) -> Population:
         """Select best k solution from a
         generation based on genomes' fitness"""
 
@@ -46,13 +46,13 @@ class Genetic:
 
         return population[:k]
 
-    def select_parents(self, population: Population) -> List[Genome]:
+    def _select_parents(self, population: Population) -> List[Genome]:
         """Select two parents from a population"""
 
         parents = random.choices(population=population, k=2)
         return parents
 
-    def crossover(self, parents: List[Genome]) -> List[Genome]:
+    def _crossover(self, parents: List[Genome]) -> List[Genome]:
         """Generate k genomes from two parents
         with random portion from each parent's dna"""
 
@@ -70,7 +70,7 @@ class Genetic:
 
         return genomes
 
-    def mutation(self, genome: Genome, mutation_rate: float = 0.05) -> Genome:
+    def _mutation(self, genome: Genome, mutation_rate: float = 0.05) -> Genome:
         """Change point(s) is genome's dna to achieve variety"""
 
         points = random.choice(
@@ -83,27 +83,27 @@ class Genetic:
 
         return new_genome
 
-    def make_generation(self, population: Population, k: int) -> Population:
+    def _make_generation(self, population: Population, k: int) -> Population:
         """Make new generation based on current generation with k genomes"""
 
         generation = []
         for _ in range(k):
-            parents = self.select_parents(population=population)
-            genomes = self.crossover(parents=parents)
+            parents = self._select_parents(population=population)
+            genomes = self._crossover(parents=parents)
             generation += genomes
 
-        generation = [self.mutation(genome) for genome in generation]
+        generation = [self._mutation(genome) for genome in generation]
         return generation
 
-    def evolution(self, lim: int = 100) -> tuple[Knapsack, List[int]]:
+    def evolution(self, lim: int = 100):
         """Evolution function"""
 
-        generation = self.generate_population(k=1200)
+        generation = self._generate_population(k=1200)
         result = generation[0]
         gen_fitness = []
 
         for gen in range(lim):
-            top_genomes = self.natural_selection(population=generation, k=100)
+            top_genomes = self._natural_selection(population=generation, k=100)
             best_genome = top_genomes[0]
             gen_fitness.append(self.fitness(best_genome))
 
@@ -116,7 +116,7 @@ class Genetic:
                 "",
             )
 
-            generation = self.make_generation(population=top_genomes, k=1200)
+            generation = self._make_generation(population=top_genomes, k=1200)
 
         yield result, gen_fitness
 
@@ -124,7 +124,7 @@ class Genetic:
 class UnboundedGenetic(Genetic):
     """Unbounded version of genetic algorithm"""
 
-    def mutation(self, genome: Genome, mutation_rate: float = 0.05) -> Genome:
+    def _mutation(self, genome: Genome, mutation_rate: float = 0.05) -> Genome:
         """Change point(s) is genome's dna to achieve variety"""
 
         points = random.choice(
