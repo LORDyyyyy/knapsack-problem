@@ -1,10 +1,10 @@
 import random
-from typing import List, Callable
+import math
+from typing import List
 from .knapsack import Knapsack
 
 Genome = Knapsack
 Population = List[Genome]
-Fitness = Callable[[Genome], float]
 
 
 class Genetic:
@@ -23,7 +23,8 @@ class Genetic:
         """Generate a genome with random values"""
 
         genome = Genome(
-            random.choices(population=[False, True], weights=[0.95, 0.05], k=Knapsack.n)
+            random.choices(population=[False, True], weights=[
+                           0.95, 0.05], k=Knapsack.n)
         )
 
         return genome
@@ -55,7 +56,7 @@ class Genetic:
         """Generate k genomes from two parents
         with random portion from each parent's dna"""
 
-        cross_point = random.randrange(Knapsack.n)
+        cross_point = random.randrange(Knapsack.n + 1)
         genomes = [
             Genome(
                 parents[0].selected_items[:cross_point]
@@ -69,15 +70,16 @@ class Genetic:
 
         return genomes
 
-    def mutation(self, genome: Genome) -> Genome:
+    def mutation(self, genome: Genome, mutation_rate: float = 0.05) -> Genome:
         """Change point(s) is genome's dna to achieve variety"""
 
-        points = random.randrange(5) if Knapsack.n > 5 else 1
+        points = random.choice(
+            range(math.ceil(Knapsack.n * mutation_rate) + 1))
         new_genome = Genome(genome.selected_items)
 
         for _ in range(points):
             index = random.randrange(Knapsack.n)
-            new_genome.flip_item(index)
+            new_genome.change_quantity(index=index)
 
         return new_genome
 
@@ -110,7 +112,7 @@ class Genetic:
 
             yield (
                 f"Generation {gen}'s best solution is {
-                  self.fitness(best_genome)}",
+                    self.fitness(best_genome)}",
                 "",
             )
 
@@ -122,10 +124,11 @@ class Genetic:
 class UnboundedGenetic(Genetic):
     """Unbounded version of genetic algorithm"""
 
-    def mutation(self, genome: Genome) -> Genome:
+    def mutation(self, genome: Genome, mutation_rate: float = 0.05) -> Genome:
         """Change point(s) is genome's dna to achieve variety"""
 
-        points = random.randrange(20) if Knapsack.n > 15 else 1
+        points = random.choice(
+            range(math.ceil(Knapsack.n * mutation_rate) + 1))
         new_genome = Genome(genome.selected_items)
 
         for _ in range(points):
@@ -138,6 +141,6 @@ class UnboundedGenetic(Genetic):
                 + list(range(min(lim - current, 5) + 1))
             )
 
-            new_genome.change_quantity(index=index, take=current + diff)
+            new_genome.change_quantity(index=index, quantity=current + diff)
 
         return new_genome
