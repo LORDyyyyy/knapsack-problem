@@ -23,28 +23,21 @@ class Knapsack:
             self._weight += Knapsack.available_items[i].weight * take
             self._value += Knapsack.available_items[i].value * take
 
-    def flip_item(self, index):
-        """Take or drop an item in the knapsack"""
+    def change_quantity(self, index: int, quantity: int = -1):
+        """Change how much should I take an item"""
 
-        item = Knapsack.available_items[index]
-        sign = -1 if self.selected_items[index] else 1
-
-        self._weight += item.weight * sign
-        self._value += item.value * sign
-        self.selected_items[index] = not self.selected_items[index]
-
-    def change_quantity(self, index, take):
-        """Change how much should i take an item"""
-
-        if index < 0 or take < 0 or index >= Knapsack.n:
+        if index < 0 or quantity < 0 or index >= Knapsack.n:
             return
 
-        item = Knapsack.available_items[index]
-        quantity = take - self.selected_items[index]
+        if quantity == -1:
+            quantity = not self.selected_items[index]
 
-        self._weight += item.weight * quantity
-        self._value += item.value * quantity
-        self.selected_items[index] = take
+        item = Knapsack.available_items[index]
+        difference = quantity - self.selected_items[index]
+
+        self._weight += item.weight * difference
+        self._value += item.value * difference
+        self.selected_items[index] = quantity
 
     def get_weight(self):
         """Get total weight"""
@@ -66,7 +59,8 @@ class Knapsack:
     def __repr__(self) -> str:
         """How the knapsack object should be printed"""
 
-        result: str = f"Weight: {self._weight}\nValue: {self._value}\nTaken items: "
+        result: str = f"Weight: {self._weight}\nValue: {
+            self._value}\nTaken items: "
         for i, take in enumerate(self.selected_items):
             if take > 1:
                 result += f"{i + 1}({self.selected_items[i]}) "
