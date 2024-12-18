@@ -16,7 +16,7 @@ def start():
         genetic = UnboundedGenetic()
 
     n, Knapsack.maximum_capacity = map(
-        int, input(f"Number of Items and Max Capacity: ").split()
+        int, input("Number of Items and Max Capacity: ").split()
     )
 
     for i in range(n):
