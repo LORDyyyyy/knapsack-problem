@@ -71,14 +71,14 @@ def solve():
 
         # Clear Knapsack's available items
         Knapsack.n = 0
-        Knapsack.availabe_items = []
+        Knapsack.available_items = []
 
         weight, value = result["weight"], result["value"]
 
         genetic = Genetic() if problem_type == 1 else UnboundedGenetic()
 
         Knapsack.n = 0
-        Knapsack.availabe_items = []
+        Knapsack.available_items = []
         for i in range(n):
             Knapsack.add_item(weight=int(weight[i]), value=int(value[i]))
 

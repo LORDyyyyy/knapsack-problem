@@ -131,7 +131,7 @@ class UnboundedGenetic(Genetic):
         for _ in range(points):
             index = random.randrange(Knapsack.n)
             current = genome.selected_items[index]
-            lim = Knapsack.maximum_capacity // Knapsack.availabe_items[index].weight
+            lim = Knapsack.maximum_capacity // Knapsack.available_items[index].weight
 
             diff = random.choice(
                 list(range(max(-current, -5), 1))

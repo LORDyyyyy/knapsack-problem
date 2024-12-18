@@ -7,7 +7,7 @@ Item = namedtuple("Item", ["weight", "value"])
 class Knapsack:
     n = 0
     maximum_capacity = 0
-    availabe_items: List[Item] = []
+    available_items: List[Item] = []
 
     def __init__(self, selected_items):
         self._weight = 0
@@ -20,13 +20,13 @@ class Knapsack:
         """Calculate total weight of selected items in the knapsack"""
 
         for i, take in enumerate(self.selected_items):
-            self._weight += Knapsack.availabe_items[i].weight * take
-            self._value += Knapsack.availabe_items[i].value * take
+            self._weight += Knapsack.available_items[i].weight * take
+            self._value += Knapsack.available_items[i].value * take
 
     def flip_item(self, index):
         """Take or drop an item in the knapsack"""
 
-        item = Knapsack.availabe_items[index]
+        item = Knapsack.available_items[index]
         sign = -1 if self.selected_items[index] else 1
 
         self._weight += item.weight * sign
@@ -39,7 +39,7 @@ class Knapsack:
         if index < 0 or take < 0 or index >= Knapsack.n:
             return
 
-        item = Knapsack.availabe_items[index]
+        item = Knapsack.available_items[index]
         quantity = take - self.selected_items[index]
 
         self._weight += item.weight * quantity
@@ -60,7 +60,7 @@ class Knapsack:
     def add_item(value: int, weight: int):
         """Add new item to available items"""
 
-        Knapsack.availabe_items.append(Item(weight=weight, value=value))
+        Knapsack.available_items.append(Item(weight=weight, value=value))
         Knapsack.n += 1
 
     def __repr__(self) -> str:
