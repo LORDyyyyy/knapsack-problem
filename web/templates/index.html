@@ -20,58 +20,58 @@
     <h1 class="text-center text-white my-3">Knapsack Problem</h1>
 
 
-
-    
-
     <div class="main-box d-flex justify-content-center flex-wrap">
 
-        <div  id="outputDiv2" class="bg-white mx-5 p-4 my-4 rounded-3 ">
+        <div id="outputDiv2" class="bg-white mx-5 p-4 my-4 rounded-3 ">
             <h2>OutPut:</h2>
-            
-            
-        </div>
-        
-        <div class="bg-white p-4 my-4 rounded-3">
-            <!-- Type -->
-            <div class="my-3">
-            <select id="algo-type" onchange="" class="form-select" aria-label="Default select example">
-                <option value="1">0/1</option>
-                <option value="2">Unbounded</option>
-            </select>
-            </div>
-            <!-- Size -->
-            <label for="exampleFormControlInput1" class="form-label">Size:</label>
-            <div class="mb-3">
-                <input type="number" class="form-control" id="sizeInput" placeholder="size...">
-            </div>
-            <label for="exampleFormControlInput1" class="form-label">Maximum Capacity:</label>
-            <div class="mb-3">
-                <input type="number" id="maxCapacity" class="form-control" id="exampleFormControlInput1" placeholder="Maximum Capacity">
-            </div>
-            <button id="addBtn" onclick="displayFields();" class="btn btn-primary">Add</button>
+
+
         </div>
 
-        <div  id="outputDiv" class="bg-white mx-5 p-4 my-4 rounded-3 ">
+        <div class="bg-white p-4 my-4 rounded-3">
+            <!-- Type -->
+            <div class="my-1">
+                <label for="algo-type"
+                    class="form-label">Type:</label>
+                <select id="algo-type" onchange="" class="form-select"
+                    aria-label="Default select example">
+                    <option value="1">0/1</option>
+                    <option value="2">Unbounded</option>
+                </select>
+            </div>
+            <!-- Size -->
+            <label for="exampleFormControlInput1"
+                class="form-label">Size:</label>
+            <div class="mb-3">
+                <input type="number" class="form-control" id="sizeInput"
+                    placeholder="Size...">
+            </div>
+            <label for="exampleFormControlInput1" class="form-label">Maximum
+                Capacity:</label>
+            <div class="mb-3">
+                <input type="number" id="maxCapacity" class="form-control"
+                    id="exampleFormControlInput1"
+                    placeholder="Maximum Capacity">
+            </div>
+            <button id="addBtn" onclick="displayFields();"
+                class="btn btn-primary">Add</button>
+        </div>
+
+        <div id="outputDiv" class="bg-white mx-5 p-4 my-4 rounded-3">
             <h2>OutPut:</h2>
-            
-            
         </div>
 
     </div>
 
 
     <!-- Values -->
-    
 
-        <div class="container mt-4 mb-1">
-            <div id="fields" class="row justify-content-center">
-                        <h2 class="text-white text-center">Weights & values</h2>
 
-                        
-    
-                    <hr>
-            </div>
+    <div class="container mt-4 mb-1">
+        <div id="fields" class="row justify-content-center">
+
         </div>
+    </div>
 
 
     <div class="container d-flex justify-content-center my-4">

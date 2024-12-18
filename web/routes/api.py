@@ -1,5 +1,8 @@
 from flask import Blueprint, jsonify, request, Response
 from core import Knapsack, Genetic, UnboundedGenetic
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import time
 from marshmallow import (
     Schema,
     fields,
@@ -7,6 +10,10 @@ from marshmallow import (
     INCLUDE,
     validates_schema,
 )
+import io
+import base64
+
+mpl.use("Agg")
 
 
 api_bp = Blueprint("api", __name__)
@@ -76,12 +83,29 @@ def solve():
             Knapsack.add_item(weight=int(weight[i]), value=int(value[i]))
 
         def wrapper():
-            for knapsack, _ in genetic.evolution(lim=500):
+            for knapsack, y in genetic.evolution(lim=500):
+                time.sleep(0.02)
                 yield str(knapsack) + "\n"
 
-        return Response(wrapper(), content_type="text/plain")
+            x = list(range(len(y)))
+            plt.scatter(x, y)
+            img = io.BytesIO()
+            plt.savefig(img, format="png")
+            img.seek(0)
+            plt.close()
 
-        # return Response(genetic.evolution(lim=500), content_type="text/plain")
+            encoded_img = base64.b64encode(img.read()).decode("utf-8")
+
+            yield encoded_img
+
+        response = Response(wrapper(), content_type="text/plain")
+        response.headers["Cache-Control"] = (
+            "no-store, no-cache, must-revalidate, max-age=0"
+        )
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+        return response
+        # return Response(wrapper(), content_type="text/plain")
 
     except ValidationError as err:
         return jsonify(err.messages), 400
