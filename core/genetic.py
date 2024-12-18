@@ -22,8 +22,9 @@ class Genetic:
     def generate_genome(self) -> Genome:
         """Generate a genome with random values"""
 
-        genome = Genome(random.choices(
-            population=[False, True], weights=[0.95, 0.05], k=Knapsack.n))
+        genome = Genome(
+            random.choices(population=[False, True], weights=[0.95, 0.05], k=Knapsack.n)
+        )
 
         return genome
 
@@ -35,7 +36,7 @@ class Genetic:
 
     def natural_selection(self, population: Population, k: int) -> Population:
         """Select best k solution from a
-           generation based on genomes' fitness"""
+        generation based on genomes' fitness"""
 
         population.sort(key=self.fitness, reverse=True)
 
@@ -55,10 +56,16 @@ class Genetic:
         with random portion from each parent's dna"""
 
         cross_point = random.randrange(Knapsack.n)
-        genomes = [Genome(parents[0].selected_items[:cross_point] +
-                          parents[1].selected_items[cross_point:]),
-                   Genome(parents[1].selected_items[:cross_point] +
-                          parents[0].selected_items[cross_point:])]
+        genomes = [
+            Genome(
+                parents[0].selected_items[:cross_point]
+                + parents[1].selected_items[cross_point:]
+            ),
+            Genome(
+                parents[1].selected_items[:cross_point]
+                + parents[0].selected_items[cross_point:]
+            ),
+        ]
 
         return genomes
 
@@ -101,8 +108,11 @@ class Genetic:
             if self.fitness(best_genome) > self.fitness(result):
                 result = best_genome
 
-            yield f"Generation {gen}'s best solution is {
-                  self.fitness(best_genome)}", ""
+            yield (
+                f"Generation {gen}'s best solution is {
+                  self.fitness(best_genome)}",
+                "",
+            )
 
             generation = self.make_generation(population=top_genomes, k=1200)
 
@@ -121,11 +131,12 @@ class UnboundedGenetic(Genetic):
         for _ in range(points):
             index = random.randrange(Knapsack.n)
             current = genome.selected_items[index]
-            lim = Knapsack.maximum_capacity \
-                // Knapsack.availabe_items[index].weight
+            lim = Knapsack.maximum_capacity // Knapsack.availabe_items[index].weight
 
-            diff = random.choice(list(range(max(-current, -5), 1))
-                                 + list(range(min(lim - current, 5) + 1)))
+            diff = random.choice(
+                list(range(max(-current, -5), 1))
+                + list(range(min(lim - current, 5) + 1))
+            )
 
             new_genome.change_quantity(index=index, take=current + diff)
 
