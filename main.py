@@ -1,6 +1,5 @@
 import sys
-import web
-import cli
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
@@ -11,6 +10,10 @@ if __name__ == "__main__":
         raise AttributeError("Invalid Environment value. Only api, cli are accepted.")
 
     if env == "api":
+        import web
+
         web.start()
     else:
+        import cli
+
         cli.start()

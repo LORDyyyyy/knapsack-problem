@@ -142,6 +142,7 @@ document.getElementById("generateBtn").addEventListener("click", () => {
                         "_blank",
                         "width=800,height=600"
                     );
+                    outputWindow.document.title = "Image Viewer";
                     outputWindow.document.write(
                         `<img src="data:image/png;base64,${base64Image}" style="max-width: 100%; height: auto;">`
                     );
