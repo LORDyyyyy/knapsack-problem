@@ -95,15 +95,17 @@ class Genetic:
         generation = [self._mutation(genome) for genome in generation]
         return generation
 
-    def evolution(self, lim: int = 100):
+    def evolution(self, lim: int = 100, pop_size: int = 1200):
         """Evolution function"""
 
-        generation = self._generate_population(k=1200)
+        generation = self._generate_population(k=pop_size)
         result = generation[0]
         gen_fitness = []
 
         for gen in range(lim):
-            top_genomes = self._natural_selection(population=generation, k=100)
+            top_genomes = self._natural_selection(
+                population=generation, k=pop_size // 10)
+
             best_genome = top_genomes[0]
             gen_fitness.append(self.fitness(best_genome))
 
@@ -116,7 +118,8 @@ class Genetic:
                 "",
             )
 
-            generation = self._make_generation(population=top_genomes, k=1200)
+            generation = self._make_generation(
+                population=top_genomes, k=pop_size)
 
         yield result, gen_fitness
 
@@ -134,7 +137,8 @@ class UnboundedGenetic(Genetic):
         for _ in range(points):
             index = random.randrange(Knapsack.n)
             current = genome.selected_items[index]
-            lim = Knapsack.maximum_capacity // Knapsack.available_items[index].weight
+            item = Knapsack.available_items[index]
+            lim = Knapsack.maximum_capacity // item.weight
 
             diff = random.choice(
                 list(range(max(-current, -5), 1))
